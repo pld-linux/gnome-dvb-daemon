@@ -6,7 +6,7 @@ Summary:	Daemon to setup DVB devices, record and watch TV shows and browse EPG
 Summary(pl.UTF-8):	Demon do ustawiania urządzeń DVB, nagrywania i oglądania programów TV oraz przeglądania EPG
 Name:		gnome-dvb-daemon
 Version:	0.2.90
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-dvb-daemon/0.2/%{name}-%{version}.tar.xz
