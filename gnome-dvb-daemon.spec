@@ -6,11 +6,15 @@ Summary:	Daemon to setup DVB devices, record and watch TV shows and browse EPG
 Summary(pl.UTF-8):	Demon do ustawiania urządzeń DVB, nagrywania i oglądania programów TV oraz przeglądania EPG
 Name:		gnome-dvb-daemon
 Version:	0.2.90
-Release:	12
+Release:	13
 License:	GPL v3+
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-dvb-daemon/0.2/%{name}-%{version}.tar.xz
+Source0:	https://download.gnome.org/sources/gnome-dvb-daemon/0.2/%{name}-%{version}.tar.xz
 # Source0-md5:	06409269886d174ac54883b07f71faac
+# gitlab.gnome.org/Archive/gnome-dvb-daemon/-/raw/master/vapi/gstreamer-mpegts-1.0.vapi?ref_type=heads
+Source1:	gstreamer-mpegts-1.0.vapi
+Patch0:		%{name}-vala.patch
+Patch1:		%{name}-vala2.patch
 URL:		https://wiki.gnome.org/Projects/DVBDaemon
 BuildRequires:	autoconf >= 2.63.2
 BuildRequires:	automake >= 1:1.11
@@ -33,6 +37,7 @@ BuildRequires:	python3-pygobject3-devel >= 3.2.1
 BuildRequires:	sqlite3-devel >= 3.4
 BuildRequires:	udev-devel
 BuildRequires:	vala >= 2:0.25.1
+BuildRequires:	vala-libgee >= 0.8.0
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	glib2 >= 1:2.32.0
 Requires:	hicolor-icon-theme
@@ -76,8 +81,15 @@ przy użyciu GNOME DVB Daemona.
 
 %prep
 %setup -q
+%patch -P0 -p1
+%patch -P1 -p1
+
+cp -p %{SOURCE1} vapi
 
 %{__sed} -i -e '1s,/usr/bin/env python,/usr/bin/python3,' client/{gnome-dvb-control,gnome-dvb-setup}
+
+# force regeneration with newer vala
+%{__rm} src/*.c src/*/*.c
 
 %build
 %{__intltoolize}

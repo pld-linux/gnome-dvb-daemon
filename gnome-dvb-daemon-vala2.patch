@@ -1,0 +1,11 @@
+--- gnome-dvb-daemon-0.2.90/vapi/cutils.vapi.orig	2012-09-10 10:15:59.000000000 +0200
++++ gnome-dvb-daemon-0.2.90/vapi/cutils.vapi	2025-04-16 17:25:52.534634142 +0200
+@@ -1,7 +1,7 @@
+ 
+ namespace cUtils {
+ 
+-    [CCode (cname = "timegm", cheader_filename="time.h")]
++    [CCode (cname = "timegm", cheader_filename="time.h", feature_test_macro = "_DEFAULT_SOURCE")]
+     public static time_t timegm (GLib.Time tm);
+ 
+     [CCode (cname = "gst_bus_add_watch_context", cheader_filename = "cstuff.h")]

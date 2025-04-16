@@ -1,0 +1,67 @@
+From 149ffb0e661045a97e66e0d3bf9dbce0c7acac3e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sebastian=20P=C3=B6lsterl?= <sebp@k-d-w.org>
+Date: Sun, 16 Aug 2020 12:43:14 +0200
+Subject: [PATCH] Fix compilation errors with latest Vala version
+
+---
+ src/ChannelFactory.vala                 | 2 +-
+ src/Parameter.vala                      | 2 +-
+ src/database/sqlite/SqliteDatabase.vala | 2 +-
+ src/rtsp/Server.vala                    | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/ChannelFactory.vala b/src/ChannelFactory.vala
+index c14bc851..daf7f989 100644
+--- a/src/ChannelFactory.vala
++++ b/src/ChannelFactory.vala
+@@ -252,7 +252,7 @@ namespace DVB {
+             return bin;
+         }
+ 
+-        private static int find_element (GLib.Value av, Gst.Element bv) {
++        private static int find_element (GLib.Value? av, Gst.Element bv) {
+             Gst.Element a = (Gst.Element)av;
+             Gst.Element b = (Gst.Element)bv;
+             if (a == b) return 0;
+diff --git a/src/Parameter.vala b/src/Parameter.vala
+index 8ee807c1..3ba50f04 100644
+--- a/src/Parameter.vala
++++ b/src/Parameter.vala
+@@ -32,7 +32,7 @@ namespace DVB {
+         public uint Frequency { get; protected set; }
+ 
+         // Constructor
+-        public Parameter (DvbSrcDelsys delsys) {
++        protected Parameter (DvbSrcDelsys delsys) {
+             base (Delsys: delsys);
+         }
+ 
+diff --git a/src/database/sqlite/SqliteDatabase.vala b/src/database/sqlite/SqliteDatabase.vala
+index 766950de..16b8661e 100644
+--- a/src/database/sqlite/SqliteDatabase.vala
++++ b/src/database/sqlite/SqliteDatabase.vala
+@@ -32,7 +32,7 @@ namespace DVB.database.sqlite {
+         protected Database db;
+         private int new_version;
+ 
+-        public SqliteDatabase (File dbfile, int version) {
++        protected SqliteDatabase (File dbfile, int version) {
+             base (database_file: dbfile);
+             this.new_version = version;
+         }
+diff --git a/src/rtsp/Server.vala b/src/rtsp/Server.vala
+index 10162f8f..670f7c95 100644
+--- a/src/rtsp/Server.vala
++++ b/src/rtsp/Server.vala
+@@ -31,7 +31,7 @@ namespace DVB.RTSPServer {
+         string iface = settings.get_streaming_interface ();
+ 
+         string? address = null;
+-        GLib.List<unowned cUtils.NetAdapter?> adapters = cUtils.get_adapters ();
++        GLib.List<cUtils.NetAdapter?> adapters = cUtils.get_adapters ();
+         foreach (unowned cUtils.NetAdapter? na in adapters) {
+             if (na.name == iface) {
+                 address = na.address;
+-- 
+GitLab
+
